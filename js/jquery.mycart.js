@@ -14,8 +14,10 @@
       classCartBadge: 'my-cart-badge',
       affixCartIcon: true,
       checkoutCart: function(products) { },
-      clickOnAddToCart: function($addTocart) { }
+      clickOnAddToCart: function($addTocart) { },
+      getDiscountPrice: function(products) { return null; }
     };
+
 
     var getOptions = function (customOptions) {
       var options = $.extend({}, defaultOptions);
@@ -156,6 +158,7 @@
     var classProductRemove = 'my-product-remove';
     var idEmptyCartMessage = 'my-cart-empty-message';
     var classAffixMyCartIcon = 'my-cart-icon-affix';
+    var idDiscountPrice = 'my-cart-discount-price';
 
     $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
 
@@ -184,12 +187,10 @@
     var drawTable = function(){
       var $cartTable = $("#" + idCartTable);
       $cartTable.empty();
-      var grandTotal = 0;
 
       var products = ProductManager.getAllProducts();
       $.each(products, function(){
         var total = this.quantity * this.price;
-        grandTotal += total;
         $cartTable.append(
           '<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
           '<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="' + this.image + '"/></td>' +
@@ -208,11 +209,28 @@
         '<td><strong>Total</strong></td>' +
         '<td></td>' +
         '<td></td>' +
-        '<td id="' + idGrandTotal + '"><strong>$' + grandTotal + '</strong></td>' +
+        '<td><strong id="' + idGrandTotal + '">$</strong></td>' +
         '<td></td>' +
         '</tr>'
         : '<div class="alert alert-danger" role="alert" id="' + idEmptyCartMessage + '">Your cart is empty</div>'
       );
+
+      var discountPrice = options.getDiscountPrice(products);
+      if(discountPrice !== null) {
+        $cartTable.append(
+          '<tr style="color: red">' +
+          '<td></td>' +
+          '<td><strong>Total (including discount)</strong></td>' +
+          '<td></td>' +
+          '<td></td>' +
+          '<td><strong id="' + idDiscountPrice + '">$</strong></td>' +
+          '<td></td>' +
+          '</tr>'
+        );
+      }
+
+      showGrandTotal(products);
+      showDiscountPrice(products);
     }
     var showModal = function(){
       drawTable();
@@ -224,12 +242,15 @@
         ProductManager.updatePoduct(id, $(this).val());
       });
     }
-    var showGrandTotal = function(){
-      var grandTotal = 0;
-      $("." + classProductTotal).each(function(){
-        grandTotal += $(this).text().match(/\d+/) * 1;
+    var showGrandTotal = function(products){
+      var total = 0;
+      $.each(products, function(){
+        total += this.quantity * this.price;
       });
-      $("#" + idGrandTotal).text("$" + grandTotal);
+      $("#" + idGrandTotal).text("$" + total);
+    }
+    var showDiscountPrice = function(products){
+      $("#" + idDiscountPrice).text("$" + options.getDiscountPrice(products));
     }
 
     /*
@@ -255,10 +276,12 @@
       var quantity = $(this).val();
 
       $(this).parent("td").next("." + classProductTotal).text("$" + price * quantity);
-      showGrandTotal();
-
       ProductManager.updatePoduct(id, quantity);
+
       $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
+      var products = ProductManager.getAllProducts();
+      showGrandTotal(products);
+      showDiscountPrice(products);
     });
 
     $(document).on('click', "." + classProductRemove, function(){
