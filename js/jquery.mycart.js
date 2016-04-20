@@ -216,7 +216,7 @@
       );
 
       var discountPrice = options.getDiscountPrice(products);
-      if(discountPrice !== null) {
+      if(products.length && discountPrice !== null) {
         $cartTable.append(
           '<tr style="color: red">' +
           '<td></td>' +
