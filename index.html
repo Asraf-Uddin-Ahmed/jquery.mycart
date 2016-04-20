@@ -95,20 +95,15 @@
       classCartIcon: 'my-cart-icon',
       classCartBadge: 'my-cart-badge',
       affixCartIcon: true,
-      checkoutCart: function(products) {
-        $.each(products, function(){
-          console.log(this);
-        });
-      },
       clickOnAddToCart: function($addTocart){
         goToCartIcon($addTocart);
       },
-      getDiscountPrice: function(products) {
-        var total = 0;
-        $.each(products, function(){
-          total += this.quantity * this.price;
-        });
-        return total * 0.5;
+      checkoutCart: function(products, totalPrice, totalQuantity) {
+        console.log("checking out", products, totalPrice, totalQuantity);
+      },
+      getDiscountPrice: function(products, totalPrice, totalQuantity) {
+        console.log("calculating discount", products, totalPrice, totalQuantity);
+        return totalPrice * 0.5;
       }
     });
 

@@ -13,9 +13,9 @@
       classCartIcon: 'my-cart-icon',
       classCartBadge: 'my-cart-badge',
       affixCartIcon: true,
-      checkoutCart: function(products) { },
       clickOnAddToCart: function($addTocart) { },
-      getDiscountPrice: function(products) { return null; }
+      checkoutCart: function(products, totalPrice, totalQuantity) { },
+      getDiscountPrice: function(products, totalPrice, totalQuantity) { return null; }
     };
 
 
@@ -124,11 +124,19 @@
       });
       setAllProducts(products);
     }
-    var getTotalQuantityOfProduct = function(){
+    var getTotalQuantity = function(){
       var total = 0;
       var products = getAllProducts();
       $.each(products, function(index, value){
         total += value.quantity * 1;
+      });
+      return total;
+    }
+    var getTotalPrice = function(){
+      var products = getAllProducts();
+      var total = 0;
+      $.each(products, function(index, value){
+        total += value.quantity * value.price;
       });
       return total;
     }
@@ -138,7 +146,8 @@
     objToReturn.setProduct = setProduct;
     objToReturn.clearProduct = clearProduct;
     objToReturn.removeProduct = removeProduct;
-    objToReturn.getTotalQuantityOfProduct = getTotalQuantityOfProduct;
+    objToReturn.getTotalQuantity = getTotalQuantity;
+    objToReturn.getTotalPrice = getTotalPrice;
     return objToReturn;
   }());
 
@@ -160,7 +169,7 @@
     var classAffixMyCartIcon = 'my-cart-icon-affix';
     var idDiscountPrice = 'my-cart-discount-price';
 
-    $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
+    $cartBadge.text(ProductManager.getTotalQuantity());
 
     if(!$("#" + idCartModal).length) {
       $('body').append(
@@ -215,7 +224,7 @@
         : '<div class="alert alert-danger" role="alert" id="' + idEmptyCartMessage + '">Your cart is empty</div>'
       );
 
-      var discountPrice = options.getDiscountPrice(products);
+      var discountPrice = options.getDiscountPrice(products, ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
       if(products.length && discountPrice !== null) {
         $cartTable.append(
           '<tr style="color: red">' +
@@ -229,8 +238,8 @@
         );
       }
 
-      showGrandTotal(products);
-      showDiscountPrice(products);
+      showGrandTotal();
+      showDiscountPrice();
     }
     var showModal = function(){
       drawTable();
@@ -242,15 +251,11 @@
         ProductManager.updatePoduct(id, $(this).val());
       });
     }
-    var showGrandTotal = function(products){
-      var total = 0;
-      $.each(products, function(){
-        total += this.quantity * this.price;
-      });
-      $("#" + idGrandTotal).text("$" + total);
+    var showGrandTotal = function(){
+      $("#" + idGrandTotal).text("$" + ProductManager.getTotalPrice());
     }
-    var showDiscountPrice = function(products){
-      $("#" + idDiscountPrice).text("$" + options.getDiscountPrice(products));
+    var showDiscountPrice = function(){
+      $("#" + idDiscountPrice).text("$" + options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity()));
     }
 
     /*
@@ -278,10 +283,9 @@
       $(this).parent("td").next("." + classProductTotal).text("$" + price * quantity);
       ProductManager.updatePoduct(id, quantity);
 
-      $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
-      var products = ProductManager.getAllProducts();
-      showGrandTotal(products);
-      showDiscountPrice(products);
+      $cartBadge.text(ProductManager.getTotalQuantity());
+      showGrandTotal();
+      showDiscountPrice();
     });
 
     $(document).on('click', "." + classProductRemove, function(){
@@ -290,7 +294,7 @@
       $tr.hide(500, function(){
         ProductManager.removeProduct(id);
         drawTable();
-        $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
+        $cartBadge.text(ProductManager.getTotalQuantity());
       });
     });
 
@@ -301,9 +305,9 @@
         return ;
       }
       updateCart();
-      options.checkoutCart(ProductManager.getAllProducts());
+      options.checkoutCart(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
       ProductManager.clearProduct();
-      $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
+      $cartBadge.text(ProductManager.getTotalQuantity());
       $("#" + idCartModal).modal("hide");
     });
 
@@ -339,7 +343,7 @@
       var image = $target.data('image');
 
       ProductManager.setProduct(id, name, summary, price, quantity, image);
-      $cartBadge.text(ProductManager.getTotalQuantityOfProduct());
+      $cartBadge.text(ProductManager.getTotalQuantity());
     });
 
   }
