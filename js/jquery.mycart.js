@@ -12,8 +12,13 @@
     var defaultOptions = {
       classCartIcon: 'my-cart-icon',
       classCartBadge: 'my-cart-badge',
+      classProductQuantity: 'my-product-quantity',
+      classProductRemove: 'my-product-remove',
+      classCheckoutCart: 'my-cart-checkout',
       affixCartIcon: true,
+      showCheckoutModal: true,
       clickOnAddToCart: function($addTocart) { },
+      clickOnCartIcon: function($cartIcon, products, totalPrice, totalQuantity) { },
       checkoutCart: function(products, totalPrice, totalQuantity) { },
       getDiscountPrice: function(products, totalPrice, totalQuantity) { return null; }
     };
@@ -157,17 +162,17 @@
     var options = OptionManager.getOptions(userOptions);
     var $cartIcon = $("." + options.classCartIcon);
     var $cartBadge = $("." + options.classCartBadge);
+    var classProductQuantity = options.classProductQuantity;
+    var classProductRemove = options.classProductRemove;
+    var classCheckoutCart = options.classCheckoutCart;
 
     var idCartModal = 'my-cart-modal';
     var idCartTable = 'my-cart-table';
-    var classProductQuantity = 'my-product-quantity';
-    var classProductTotal = 'my-product-total';
     var idGrandTotal = 'my-cart-grand-total';
-    var idCheckoutCart = 'checkout-my-cart';
-    var classProductRemove = 'my-product-remove';
     var idEmptyCartMessage = 'my-cart-empty-message';
-    var classAffixMyCartIcon = 'my-cart-icon-affix';
     var idDiscountPrice = 'my-cart-discount-price';
+    var classProductTotal = 'my-product-total';
+    var classAffixMyCartIcon = 'my-cart-icon-affix';
 
     $cartBadge.text(ProductManager.getTotalQuantity());
 
@@ -185,7 +190,7 @@
         '</div>' +
         '<div class="modal-footer">' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-        '<button type="button" class="btn btn-primary" id="' + idCheckoutCart + '">Checkout</button>' +
+        '<button type="button" class="btn btn-primary ' + classCheckoutCart + '">Checkout</button>' +
         '</div>' +
         '</div>' +
         '</div>' +
@@ -273,7 +278,9 @@
       });
     }
 
-    $cartIcon.click(showModal);
+    $cartIcon.click(function(){
+      options.showCheckoutModal ? showModal() : options.clickOnCartIcon($cartIcon, ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
+    });
 
     $(document).on("input", "." + classProductQuantity, function () {
       var price = $(this).closest("tr").data("price");
@@ -288,6 +295,13 @@
       showDiscountPrice();
     });
 
+    $(document).on('keypress', "." + classProductQuantity, function(evt){
+      if(evt.keyCode == 38 || evt.keyCode == 40){
+        return ;
+      }
+      evt.preventDefault();
+    });
+
     $(document).on('click', "." + classProductRemove, function(){
       var $tr = $(this).closest("tr");
       var id = $tr.data("id");
@@ -298,7 +312,7 @@
       });
     });
 
-    $("#" + idCheckoutCart).click(function(){
+    $("." + classCheckoutCart).click(function(){
       var products = ProductManager.getAllProducts();
       if(!products.length) {
         $("#" + idEmptyCartMessage).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
@@ -311,12 +325,6 @@
       $("#" + idCartModal).modal("hide");
     });
 
-    $(document).on('keypress', "." + classProductQuantity, function(evt){
-      if(evt.keyCode == 38 || evt.keyCode == 40){
-        return ;
-      }
-      evt.preventDefault();
-    });
   }
 
 
