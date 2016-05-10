@@ -272,11 +272,7 @@
       var cartIconBottom = $cartIcon.offset().top * 1 + $cartIcon.css("height").match(/\d+/) * 1;
       var cartIconPosition = $cartIcon.css('position');
       $(window).scroll(function () {
-        if ($(window).scrollTop() >= cartIconBottom) {
-          $cartIcon.css('position', 'fixed').css('z-index', '999').addClass(classAffixMyCartIcon);
-        } else {
-          $cartIcon.css('position', cartIconPosition).css('background-color', 'inherit').removeClass(classAffixMyCartIcon);
-        }
+        $(window).scrollTop() >= cartIconBottom ? $cartIcon.addClass(classAffixMyCartIcon) : $cartIcon.removeClass(classAffixMyCartIcon);
       });
     }
 
