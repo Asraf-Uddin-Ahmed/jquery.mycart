@@ -36,7 +36,7 @@ Add this JS
 <script type="text/javascript">
      $(function () {
          // selector may be an ID, class, tag name or etc
-         $("selector").myCart("toggle", options);
+         $("selector").myCart(options);
      });
 </script>
 ```
