@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Jquery.mycart : jQuery plugin for cart feature">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jquery.mycart</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/Asraf-Uddin-Ahmed/jquery.mycart">View on GitHub</a>
+
+          <h1 id="project_title">Jquery.mycart</h1>
+          <h2 id="project_tagline">jQuery plugin for cart feature</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/Asraf-Uddin-Ahmed/jquery.mycart/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Asraf-Uddin-Ahmed/jquery.mycart/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="mycart" class="anchor" href="#mycart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>myCart</h2>
+
+<p>It is a simple jQuery plugin with cart feature. Items are added into cart with single unit quantity every time <strong>add to cart</strong> button pressed. There are also feature for showing built in modal for <strong>checkout</strong> from cart. Quantity can be changed from the modal and item can be removed from it also. There has a facility to show your custom checkout page.</p>
+
+<h2>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to Use It</h2>
+
+<p>Include CSS library on the web page</p>
+
+<div class="highlight highlight-source-css"><pre>&lt;<span class="pl-ent">link</span> rel="stylesheet" href="css/bootstrap<span class="pl-e">.min.css</span>"&gt;</pre></div>
+
+<p>Add this CSS</p>
+
+<div class="highlight highlight-source-css"><pre>&lt;<span class="pl-ent">style</span>&gt;
+  <span class="pl-e">.badge-notify</span>{
+    <span class="pl-c1"><span class="pl-c1">background</span></span>:<span class="pl-c1">red</span>;
+    <span class="pl-c1"><span class="pl-c1">position</span></span>:<span class="pl-c1">relative</span>;
+    <span class="pl-c1"><span class="pl-c1">top</span></span>: <span class="pl-c1">-20<span class="pl-k">px</span></span>;
+    <span class="pl-c1"><span class="pl-c1">right</span></span>: <span class="pl-c1">10<span class="pl-k">px</span></span>;
+  }
+  <span class="pl-e">.my-cart-icon-affix</span> {
+    <span class="pl-c1"><span class="pl-c1">position</span></span>: <span class="pl-c1">fixed</span>;
+    <span class="pl-c1"><span class="pl-c1">z-index</span></span>: <span class="pl-c1">999</span>;
+  }
+&lt;/<span class="pl-ent">style</span>&gt;</pre></div>
+
+<p>Include JS library on the web page</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">&lt;</span>script src<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>js/jquery-2.2.3.min.js<span class="pl-pds">"</span></span><span class="pl-k">&gt;&lt;</span><span class="pl-k">/</span>script<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>script type<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>text/javascript<span class="pl-pds">'</span></span> src<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>js/bootstrap.min.js<span class="pl-pds">"</span></span><span class="pl-k">&gt;&lt;</span><span class="pl-k">/</span>script<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>script type<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>text/javascript<span class="pl-pds">'</span></span> src<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>js/jquery.mycart.js<span class="pl-pds">"</span></span><span class="pl-k">&gt;&lt;</span><span class="pl-k">/</span>script<span class="pl-k">&gt;</span></pre></div>
+
+<p>Add this JS</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">&lt;</span>script type<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+     <span class="pl-en">$</span>(<span class="pl-k">function</span> () {
+         <span class="pl-c">// selector may be an ID, class, tag name or etc</span>
+         <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>selector<span class="pl-pds">"</span></span>).<span class="pl-en">myCart</span>(<span class="pl-s"><span class="pl-pds">"</span>toggle<span class="pl-pds">"</span></span>, options);
+     });
+<span class="pl-k">&lt;</span><span class="pl-k">/</span>script<span class="pl-k">&gt;</span></pre></div>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h2>
+
+<p>You can change the effect by modifying <strong>options</strong>.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> options <span class="pl-k">=</span> {
+      classCartIcon<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-cart-icon<span class="pl-pds">'</span></span>,
+      classCartBadge<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-cart-badge<span class="pl-pds">'</span></span>,
+      classProductQuantity<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-product-quantity<span class="pl-pds">'</span></span>,
+      classProductRemove<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-product-remove<span class="pl-pds">'</span></span>,
+      classCheckoutCart<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-cart-checkout<span class="pl-pds">'</span></span>,
+      affixCartIcon<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+      showCheckoutModal<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+      cartItems<span class="pl-k">:</span> [
+        {id<span class="pl-k">:</span> <span class="pl-c1">1</span>, name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>product 1<span class="pl-pds">'</span></span>, summary<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>summary 1<span class="pl-pds">'</span></span>, price<span class="pl-k">:</span> <span class="pl-c1">10</span>, quantity<span class="pl-k">:</span> <span class="pl-c1">1</span>, image<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>images/img_1.png<span class="pl-pds">'</span></span>},
+        {id<span class="pl-k">:</span> <span class="pl-c1">2</span>, name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>product 2<span class="pl-pds">'</span></span>, summary<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>summary 2<span class="pl-pds">'</span></span>, price<span class="pl-k">:</span> <span class="pl-c1">20</span>, quantity<span class="pl-k">:</span> <span class="pl-c1">2</span>, image<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>images/img_2.png<span class="pl-pds">'</span></span>},
+        {id<span class="pl-k">:</span> <span class="pl-c1">3</span>, name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>product 3<span class="pl-pds">'</span></span>, summary<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>summary 3<span class="pl-pds">'</span></span>, price<span class="pl-k">:</span> <span class="pl-c1">30</span>, quantity<span class="pl-k">:</span> <span class="pl-c1">1</span>, image<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>images/img_3.png<span class="pl-pds">'</span></span>}
+      ],
+      <span class="pl-en">clickOnAddToCart</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">$addTocart</span>){
+        <span class="pl-en">goToCartIcon</span>($addTocart);
+      },
+      <span class="pl-en">clickOnCartIcon</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">$cartIcon</span>, <span class="pl-smi">products</span>, <span class="pl-smi">totalPrice</span>, <span class="pl-smi">totalQuantity</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>cart icon clicked<span class="pl-pds">"</span></span>, $cartIcon, products, totalPrice, totalQuantity);
+      },
+      <span class="pl-en">checkoutCart</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">products</span>, <span class="pl-smi">totalPrice</span>, <span class="pl-smi">totalQuantity</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>checking out<span class="pl-pds">"</span></span>, products, totalPrice, totalQuantity);
+      },
+      <span class="pl-en">getDiscountPrice</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">products</span>, <span class="pl-smi">totalPrice</span>, <span class="pl-smi">totalQuantity</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>calculating discount<span class="pl-pds">"</span></span>, products, totalPrice, totalQuantity);
+        <span class="pl-k">return</span> totalPrice <span class="pl-k">*</span> <span class="pl-c1">0.5</span>;
+      }
+};</pre></div>
+
+<h2>
+<a id="end" class="anchor" href="#end" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>End</h2>
+
+<p>Thanks for checking this out. If you have any questions, please contact with this email: <a href="mailto:13ratul@gmail.com">13ratul@gmail.com</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jquery.mycart maintained by <a href="https://github.com/Asraf-Uddin-Ahmed">Asraf-Uddin-Ahmed</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
