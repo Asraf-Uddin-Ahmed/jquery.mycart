@@ -19,6 +19,7 @@
       classCheckoutCart: 'my-cart-checkout',
       affixCartIcon: true,
       showCheckoutModal: true,
+      cartItems: [],
       clickOnAddToCart: function($addTocart) { },
       clickOnCartIcon: function($cartIcon, products, totalPrice, totalQuantity) { },
       checkoutCart: function(products, totalPrice, totalQuantity) { },
@@ -175,6 +176,14 @@
     var idDiscountPrice = 'my-cart-discount-price';
     var classProductTotal = 'my-product-total';
     var classAffixMyCartIcon = 'my-cart-icon-affix';
+
+
+    if(options.cartItems && options.cartItems.constructor === Array) {
+      ProductManager.clearProduct();
+      $.each(options.cartItems, function() {
+        ProductManager.setProduct(this.id, this.name, this.summary, this.price, this.quantity, this.image);
+      });
+    }
 
     $cartBadge.text(ProductManager.getTotalQuantity());
 
