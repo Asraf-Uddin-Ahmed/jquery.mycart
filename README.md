@@ -60,6 +60,9 @@ var options = {
       clickOnAddToCart: function($addTocart){
         goToCartIcon($addTocart);
       },
+      afterAddOnCart: function(products, totalPrice, totalQuantity) {
+        console.log("afterAddOnCart", products, totalPrice, totalQuantity);
+      },
       clickOnCartIcon: function($cartIcon, products, totalPrice, totalQuantity) {
         console.log("cart icon clicked", $cartIcon, products, totalPrice, totalQuantity);
       },
@@ -78,5 +81,6 @@ var options = {
       }
 };
 ```
+**Note:** Cart state will be initialized from *cartItems* field. If you want to remain cart state of the previous page, then ignore *cartItems* field.
 ## End
 Thanks for checking this out. If you have any questions, please contact with this email: 13ratul@gmail.com
