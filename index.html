@@ -85,6 +85,7 @@
 <p>You can change the effect by modifying <strong>options</strong>.</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> options <span class="pl-k">=</span> {
+      currencySymbol<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>$<span class="pl-pds">'</span></span>,
       classCartIcon<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-cart-icon<span class="pl-pds">'</span></span>,
       classCartBadge<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-cart-badge<span class="pl-pds">'</span></span>,
       classProductQuantity<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my-product-quantity<span class="pl-pds">'</span></span>,
@@ -99,6 +100,9 @@
       ],
       <span class="pl-en">clickOnAddToCart</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">$addTocart</span>){
         <span class="pl-en">goToCartIcon</span>($addTocart);
+      },
+      <span class="pl-en">afterAddOnCart</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">products</span>, <span class="pl-smi">totalPrice</span>, <span class="pl-smi">totalQuantity</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>afterAddOnCart<span class="pl-pds">"</span></span>, products, totalPrice, totalQuantity);
       },
       <span class="pl-en">clickOnCartIcon</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">$cartIcon</span>, <span class="pl-smi">products</span>, <span class="pl-smi">totalPrice</span>, <span class="pl-smi">totalQuantity</span>) {
         <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>cart icon clicked<span class="pl-pds">"</span></span>, $cartIcon, products, totalPrice, totalQuantity);
