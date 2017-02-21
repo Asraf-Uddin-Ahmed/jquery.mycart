@@ -1,7 +1,7 @@
 /*
-* jQuery myCart - v1.0 - 2016-04-21
+* jQuery myCart - v1.1 - 2017-02-21
 * http://asraf-uddin-ahmed.github.io/
-* Copyright (c) 2016 Asraf Uddin Ahmed; Licensed None
+* Copyright (c) 2017 Asraf Uddin Ahmed; Licensed None
 */
 
 (function ($) {
@@ -179,7 +179,7 @@
     var classAffixMyCartIcon = 'my-cart-icon-affix';
 
 
-    if(options.cartItems && options.cartItems.constructor === Array) {
+    if(userOptions.cartItems && userOptions.cartItems.constructor === Array) {
       ProductManager.clearProduct();
       $.each(options.cartItems, function() {
         ProductManager.setProduct(this.id, this.name, this.summary, this.price, this.quantity, this.image);
