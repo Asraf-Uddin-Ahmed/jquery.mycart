@@ -22,6 +22,7 @@
       showCheckoutModal: true,
       cartItems: [],
       clickOnAddToCart: function($addTocart) { },
+      afterAddOnCart: function(products, totalPrice, totalQuantity) { },
       clickOnCartIcon: function($cartIcon, products, totalPrice, totalQuantity) { },
       checkoutCart: function(products, totalPrice, totalQuantity) { },
       getDiscountPrice: function(products, totalPrice, totalQuantity) { return null; }
@@ -360,6 +361,8 @@
 
       ProductManager.setProduct(id, name, summary, price, quantity, image);
       $cartBadge.text(ProductManager.getTotalQuantity());
+
+      options.afterAddOnCart(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
     });
 
   }

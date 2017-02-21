@@ -112,6 +112,9 @@
       clickOnAddToCart: function($addTocart){
         goToCartIcon($addTocart);
       },
+      afterAddOnCart: function(products, totalPrice, totalQuantity) {
+        console.log("afterAddOnCart", products, totalPrice, totalQuantity);
+      },
       clickOnCartIcon: function($cartIcon, products, totalPrice, totalQuantity) {
         console.log("cart icon clicked", $cartIcon, products, totalPrice, totalQuantity);
       },
