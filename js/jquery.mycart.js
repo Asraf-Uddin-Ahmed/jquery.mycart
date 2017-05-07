@@ -41,6 +41,14 @@
     return objToReturn;
   }());
 
+  var MathHelper = (function() {
+    var objToReturn = {};
+    var getRoundedNumber = function(number){
+      return +number.toFixed(2);
+    }
+    objToReturn.getRoundedNumber = getRoundedNumber;
+    return objToReturn;
+  }());
 
   var ProductManager = (function(){
     var objToReturn = {};
@@ -147,6 +155,7 @@
       var total = 0;
       $.each(products, function(index, value){
         total += value.quantity * value.price;
+        total = MathHelper.getRoundedNumber(total);
       });
       return total;
     }
@@ -273,7 +282,7 @@
       $("#" + idGrandTotal).text(options.currencySymbol + ProductManager.getTotalPrice());
     }
     var showDiscountPrice = function(){
-      $("#" + idDiscountPrice).text(options.currencySymbol + options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity()));
+      $("#" + idDiscountPrice).text(options.currencySymbol + MathHelper.getRoundedNumber(options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity())));
     }
 
     /*
@@ -296,7 +305,7 @@
       var id = $(this).closest("tr").data("id");
       var quantity = $(this).val();
 
-      $(this).parent("td").next("." + classProductTotal).text(options.currencySymbol + price * quantity);
+      $(this).parent("td").next("." + classProductTotal).text(options.currencySymbol + MathHelper.getRoundedNumber(price * quantity));
       ProductManager.updatePoduct(id, quantity);
 
       $cartBadge.text(ProductManager.getTotalQuantity());
