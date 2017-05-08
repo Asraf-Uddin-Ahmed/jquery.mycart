@@ -44,7 +44,7 @@
   var MathHelper = (function() {
     var objToReturn = {};
     var getRoundedNumber = function(number){
-      return +number.toFixed(2);
+      return number.toFixed(2);
     }
     objToReturn.getRoundedNumber = getRoundedNumber;
     return objToReturn;
@@ -155,7 +155,7 @@
       var total = 0;
       $.each(products, function(index, value){
         total += value.quantity * value.price;
-        total = MathHelper.getRoundedNumber(total);
+        total = MathHelper.getRoundedNumber(total) * 1;
       });
       return total;
     }
