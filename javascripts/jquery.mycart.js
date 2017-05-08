@@ -1,5 +1,5 @@
 /*
-* jQuery myCart - v1.1 - 2017-02-21
+* jQuery myCart - v1.2 - 2017-05-09
 * http://asraf-uddin-ahmed.github.io/
 * Copyright (c) 2017 Asraf Uddin Ahmed; Licensed None
 */
@@ -11,7 +11,8 @@
   var OptionManager = (function () {
     var objToReturn = {};
 
-    var defaultOptions = {
+    var _options = null;
+    var DEFAULT_OPTIONS = {
       currencySymbol: '$',
       classCartIcon: 'my-cart-icon',
       classCartBadge: 'my-cart-badge',
@@ -20,6 +21,7 @@
       classCheckoutCart: 'my-cart-checkout',
       affixCartIcon: true,
       showCheckoutModal: true,
+      numberOfDecimals: 2,
       cartItems: [],
       clickOnAddToCart: function($addTocart) { },
       afterAddOnCart: function(products, totalPrice, totalQuantity) { },
@@ -29,18 +31,30 @@
     };
 
 
-    var getOptions = function (customOptions) {
-      var options = $.extend({}, defaultOptions);
+    var loadOptions = function (customOptions) {
+      _options = $.extend({}, DEFAULT_OPTIONS);
       if (typeof customOptions === 'object') {
-        $.extend(options, customOptions);
+        $.extend(_options, customOptions);
       }
-      return options;
+    }
+    var getOptions = function () {
+      return _options;
     }
 
+    objToReturn.loadOptions = loadOptions;
     objToReturn.getOptions = getOptions;
     return objToReturn;
   }());
 
+  var MathHelper = (function() {
+    var objToReturn = {};
+    var getRoundedNumber = function(number){
+      var options = OptionManager.getOptions();
+      return number.toFixed(options.numberOfDecimals);
+    }
+    objToReturn.getRoundedNumber = getRoundedNumber;
+    return objToReturn;
+  }());
 
   var ProductManager = (function(){
     var objToReturn = {};
@@ -147,6 +161,7 @@
       var total = 0;
       $.each(products, function(index, value){
         total += value.quantity * value.price;
+        total = MathHelper.getRoundedNumber(total) * 1;
       });
       return total;
     }
@@ -162,9 +177,9 @@
   }());
 
 
-  var loadMyCartEvent = function(userOptions){
+  var loadMyCartEvent = function(){
 
-    var options = OptionManager.getOptions(userOptions);
+    var options = OptionManager.getOptions();
     var $cartIcon = $("." + options.classCartIcon);
     var $cartBadge = $("." + options.classCartBadge);
     var classProductQuantity = options.classProductQuantity;
@@ -180,7 +195,7 @@
     var classAffixMyCartIcon = 'my-cart-icon-affix';
 
 
-    if(userOptions.cartItems && userOptions.cartItems.constructor === Array) {
+    if(options.cartItems && options.cartItems.constructor === Array) {
       ProductManager.clearProduct();
       $.each(options.cartItems, function() {
         ProductManager.setProduct(this.id, this.name, this.summary, this.price, this.quantity, this.image);
@@ -222,9 +237,9 @@
           '<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
           '<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="' + this.image + '"/></td>' +
           '<td>' + this.name + '</td>' +
-          '<td title="Unit Price">' + options.currencySymbol + this.price + '</td>' +
+          '<td title="Unit Price">' + options.currencySymbol + MathHelper.getRoundedNumber(this.price) + '</td>' +
           '<td title="Quantity"><input type="number" min="1" style="width: 70px;" class="' + classProductQuantity + '" value="' + this.quantity + '"/></td>' +
-          '<td title="Total" class="' + classProductTotal + '">' + options.currencySymbol  + total + '</td>' +
+          '<td title="Total" class="' + classProductTotal + '">' + options.currencySymbol  + MathHelper.getRoundedNumber(total) + '</td>' +
           '<td title="Remove from Cart" class="text-center" style="width: 30px;"><a href="javascript:void(0);" class="btn btn-xs btn-danger ' + classProductRemove + '">X</a></td>' +
           '</tr>'
         );
@@ -270,10 +285,10 @@
       });
     }
     var showGrandTotal = function(){
-      $("#" + idGrandTotal).text(options.currencySymbol + ProductManager.getTotalPrice());
+      $("#" + idGrandTotal).text(options.currencySymbol + MathHelper.getRoundedNumber(ProductManager.getTotalPrice()));
     }
     var showDiscountPrice = function(){
-      $("#" + idDiscountPrice).text(options.currencySymbol + options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity()));
+      $("#" + idDiscountPrice).text(options.currencySymbol + MathHelper.getRoundedNumber(options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity())));
     }
 
     /*
@@ -296,7 +311,7 @@
       var id = $(this).closest("tr").data("id");
       var quantity = $(this).val();
 
-      $(this).parent("td").next("." + classProductTotal).text("$" + price * quantity);
+      $(this).parent("td").next("." + classProductTotal).text(options.currencySymbol + MathHelper.getRoundedNumber(price * quantity));
       ProductManager.updatePoduct(id, quantity);
 
       $cartBadge.text(ProductManager.getTotalQuantity());
@@ -337,12 +352,12 @@
   }
 
 
-  var MyCart = function (target, userOptions) {
+  var MyCart = function (target) {
     /*
     PRIVATE
     */
     var $target = $(target);
-    var options = OptionManager.getOptions(userOptions);
+    var options = OptionManager.getOptions();
     var $cartIcon = $("." + options.classCartIcon);
     var $cartBadge = $("." + options.classCartBadge);
 
@@ -369,9 +384,10 @@
 
 
   $.fn.myCart = function (userOptions) {
-    loadMyCartEvent(userOptions);
+    OptionManager.loadOptions(userOptions);
+    loadMyCartEvent();
     return $.each(this, function () {
-      new MyCart(this, userOptions);
+      new MyCart(this);
     });
   }
 
