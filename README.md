@@ -85,6 +85,9 @@ var options = {
       }
 };
 ```
-**Note:** Cart state will be initialized from *cartItems* field. If you want to remain cart state of the previous page, then ignore *cartItems* field.
+**Note:**
+1. Cart state will be initialized from **cartItems** field.
+2. If you want to remain cart state of the previous page, then ignore **cartItems** field.
+3. Set *epmty* array value of **cartItems** *(cartItems: [])* for empty cart while page load.
 ## End
 Thanks for checking this out. If you have any questions, please contact with this email: 13ratul@gmail.com
