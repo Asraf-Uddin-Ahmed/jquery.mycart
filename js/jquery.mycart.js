@@ -336,7 +336,7 @@
       });
     });
 
-    $("." + classCheckoutCart).click(function(){
+    $(document).on('click', "." + classCheckoutCart, function(){
       var products = ProductManager.getAllProducts();
       if(!products.length) {
         $("#" + idEmptyCartMessage).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
