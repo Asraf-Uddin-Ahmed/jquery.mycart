@@ -1,5 +1,5 @@
 /*
-* jQuery myCart - v1.2 - 2017-05-09
+* jQuery myCart - v1.3 - 2017-09-06
 * http://asraf-uddin-ahmed.github.io/
 * Copyright (c) 2017 Asraf Uddin Ahmed; Licensed None
 */
@@ -177,7 +177,7 @@
   }());
 
 
-  var loadMyCartEvent = function(){
+  var loadMyCartEvent = function(targetSelector){
 
     var options = OptionManager.getOptions();
     var $cartIcon = $("." + options.classCartIcon);
@@ -336,7 +336,7 @@
       });
     });
 
-    $("." + classCheckoutCart).click(function(){
+    $(document).on('click', "." + classCheckoutCart, function(){
       var products = ProductManager.getAllProducts();
       if(!products.length) {
         $("#" + idEmptyCartMessage).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
@@ -349,22 +349,8 @@
       $("#" + idCartModal).modal("hide");
     });
 
-  }
-
-
-  var MyCart = function (target) {
-    /*
-    PRIVATE
-    */
-    var $target = $(target);
-    var options = OptionManager.getOptions();
-    var $cartIcon = $("." + options.classCartIcon);
-    var $cartBadge = $("." + options.classCartBadge);
-
-    /*
-    EVENT
-    */
-    $target.click(function(){
+    $(document).on('click', targetSelector, function(){
+      var $target = $(this);
       options.clickOnAddToCart($target);
 
       var id = $target.data('id');
@@ -385,10 +371,8 @@
 
   $.fn.myCart = function (userOptions) {
     OptionManager.loadOptions(userOptions);
-    loadMyCartEvent();
-    return $.each(this, function () {
-      new MyCart(this);
-    });
+    loadMyCartEvent(this.selector);
+    return this;
   }
 
 
