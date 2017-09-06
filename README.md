@@ -26,17 +26,20 @@ Add this CSS
 </style>
 ```
 Include JS library on the web page
-```javascript
+```html
 <script src="js/jquery-2.2.3.min.js"></script>
 <script type='text/javascript' src="js/bootstrap.min.js"></script>
 <script type='text/javascript' src="js/jquery.mycart.js"></script>
 ```
-Add this JS
-```javascript
+Every **add to cart** button should contain following _data-*_ fields (_data-id, data-name, data-summary, data-price, data-quantity and data-image_) :
+```html
+<button class="my-cart-btn" data-id="2" data-name="product 2" data-summary="summary 2" data-price="20" data-quantity="1" data-image="images/img_2.png">Add to Cart</button>
+```
+After that add this JS
+```html
 <script type="text/javascript">
      $(function () {
-         // selector may be an ID, class, tag name or etc
-         $("selector").myCart(options);
+         $(".my-cart-btn").myCart(options);
      });
 </script>
 ```
