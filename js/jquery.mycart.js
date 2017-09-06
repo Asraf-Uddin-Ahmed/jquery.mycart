@@ -177,7 +177,7 @@
   }());
 
 
-  var loadMyCartEvent = function(){
+  var loadMyCartEvent = function(targetSelector){
 
     var options = OptionManager.getOptions();
     var $cartIcon = $("." + options.classCartIcon);
@@ -349,22 +349,8 @@
       $("#" + idCartModal).modal("hide");
     });
 
-  }
-
-
-  var MyCart = function (target) {
-    /*
-    PRIVATE
-    */
-    var $target = $(target);
-    var options = OptionManager.getOptions();
-    var $cartIcon = $("." + options.classCartIcon);
-    var $cartBadge = $("." + options.classCartBadge);
-
-    /*
-    EVENT
-    */
-    $target.click(function(){
+    $(document).on('click', targetSelector, function(){
+      var $target = $(this);
       options.clickOnAddToCart($target);
 
       var id = $target.data('id');
@@ -385,10 +371,8 @@
 
   $.fn.myCart = function (userOptions) {
     OptionManager.loadOptions(userOptions);
-    loadMyCartEvent();
-    return $.each(this, function () {
-      new MyCart(this);
-    });
+    loadMyCartEvent(this.selector);
+    return this;
   }
 
 
