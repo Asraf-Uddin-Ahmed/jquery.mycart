@@ -22,7 +22,7 @@
       affixCartIcon: true,
       showCheckoutModal: true,
       numberOfDecimals: 2,
-      cartItems: [],
+      cartItems: null,
       clickOnAddToCart: function($addTocart) { },
       afterAddOnCart: function(products, totalPrice, totalQuantity) { },
       clickOnCartIcon: function($cartIcon, products, totalPrice, totalQuantity) { },
