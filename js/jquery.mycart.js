@@ -49,6 +49,10 @@
   var MathHelper = (function() {
     var objToReturn = {};
     var getRoundedNumber = function(number){
+      if(isNaN(number)) {
+        throw new Error('Parameter is not a Number');
+      }
+      number = number * 1;
       var options = OptionManager.getOptions();
       return number.toFixed(options.numberOfDecimals);
     }
