@@ -71,6 +71,9 @@ var options = {
         console.log("cart icon clicked", $cartIcon, products, totalPrice, totalQuantity);
       },
       checkoutCart: function(products, totalPrice, totalQuantity) {
+        // return false, from this function 
+        // if precondition of checking out is invalid
+        // if(!willProceedToCheckout) return false;
         var checkoutString = "Total Price: " + totalPrice + "\nTotal Quantity: " + totalQuantity;
         checkoutString += "\n\n id \t name \t summary \t price \t quantity \t image path";
         $.each(products, function(){
@@ -88,6 +91,6 @@ var options = {
 **Note:**
 1. Cart state will be initialized from **cartItems** field.
 2. If you want to remain cart state of the previous page, then ignore **cartItems** field.
-3. Set *epmty* array value of **cartItems** *(cartItems: [])* for empty cart while page load.
+3. Set *empty* array value of **cartItems** *(cartItems: [])* for empty cart while page load.
 ## End
 Thanks for checking this out. If you have any questions, please contact with this email: 13ratul@gmail.com

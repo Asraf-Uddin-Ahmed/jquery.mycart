@@ -1,5 +1,5 @@
 /*
- * jQuery myCart - v1.5 - 2017-10-23
+ * jQuery myCart - v1.6 - 2018-03-06
  * http://asraf-uddin-ahmed.github.io/
  * Copyright (c) 2017 Asraf Uddin Ahmed; Licensed None
  */
