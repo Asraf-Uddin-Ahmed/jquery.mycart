@@ -26,7 +26,9 @@
       clickOnAddToCart: function ($addTocart) {},
       afterAddOnCart: function (products, totalPrice, totalQuantity) {},
       clickOnCartIcon: function ($cartIcon, products, totalPrice, totalQuantity) {},
-      checkoutCart: function (products, totalPrice, totalQuantity) {},
+      checkoutCart: function (products, totalPrice, totalQuantity) {
+        return false;
+      },
       getDiscountPrice: function (products, totalPrice, totalQuantity) {
         return null;
       }
@@ -349,10 +351,12 @@
         return;
       }
       updateCart();
-      options.checkoutCart(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
-      ProductManager.clearProduct();
-      $cartBadge.text(ProductManager.getTotalQuantity());
-      $("#" + idCartModal).modal("hide");
+      var isCheckedOut = options.checkoutCart(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
+      if (isCheckedOut !== false) {
+        ProductManager.clearProduct();
+        $cartBadge.text(ProductManager.getTotalQuantity());
+        $("#" + idCartModal).modal("hide");
+      }
     });
 
     $(document).on('click', targetSelector, function () {
