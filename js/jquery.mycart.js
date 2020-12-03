@@ -332,7 +332,7 @@
     });
 
     $(document).on('keypress', "." + classProductQuantity, function (evt) {
-      if (evt.keyCode == 38 || evt.keyCode == 40) {
+      if (evt.keyCode >= 48 && evt.keyCode <= 57) {
         return;
       }
       evt.preventDefault();
