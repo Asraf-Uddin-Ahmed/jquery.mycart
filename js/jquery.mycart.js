@@ -70,7 +70,8 @@
     /*
     PRIVATE
     */
-    localStorage.products = localStorage.products ? localStorage.products : "";
+    const STORAGE_NAME = "__mycart";
+    localStorage[STORAGE_NAME] = localStorage[STORAGE_NAME] ? localStorage[STORAGE_NAME] : "";
     var getIndexOfProduct = function (id) {
       var productIndex = -1;
       var products = getAllProducts();
@@ -83,7 +84,7 @@
       return productIndex;
     };
     var setAllProducts = function (products) {
-      localStorage.products = JSON.stringify(products);
+      localStorage[STORAGE_NAME] = JSON.stringify(products);
     };
     var addProduct = function (id, name, summary, price, quantity, image) {
       var products = getAllProducts();
@@ -103,7 +104,7 @@
     */
     var getAllProducts = function () {
       try {
-        var products = JSON.parse(localStorage.products);
+        var products = JSON.parse(localStorage[STORAGE_NAME]);
         return products;
       } catch (e) {
         return [];
